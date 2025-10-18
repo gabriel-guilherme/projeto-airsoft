@@ -23,7 +23,7 @@ transform = Transform3D(-1.00315, 0, -8.76986e-08, 0, 1.00315, 0, 8.76986e-08, 0
 script = ExtResource("1_dhhve")
 fire_rate = 8.0
 energy = 3.0
-max_ammo = 100000000000000
+max_ammo = 32
 
 [node name="Inner" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -2.20869e-09, -1, 0, 0.0505289, -4.37114e-08, 0, 0, 0)
