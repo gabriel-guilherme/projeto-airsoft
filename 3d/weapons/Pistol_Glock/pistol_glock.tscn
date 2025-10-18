@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=3 uid="uid://7mksyex6wxgs"]
+
+[ext_resource type="Script" uid="uid://dgfoy5yx67ji1" path="res://3d/weapons/Pistol_Glock/pistol_glock.gd" id="1_6bfla"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0n45e"]
+albedo_color = Color(1, 0.564706, 0.219608, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_qswf8"]
+material = SubResource("StandardMaterial3D_0n45e")
+radius = 0.25
+height = 10.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v6fj0"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_x2idj"]
+material = SubResource("StandardMaterial3D_v6fj0")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v6fj0"]
+
+[node name="Pistol_Glock" type="Area3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+script = ExtResource("1_6bfla")
+spread_angle = 5.0
+
+[node name="Inner" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -2.20869e-09, -1, 0, 0.0505289, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_qswf8")
+
+[node name="Muzzle" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.95309e-08, 0.000411589, 0.247828)
+
+[node name="Reticula" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.0437839, 0, 0, 0, 0.0886698, 0, 0, 0, 0.0972809, 0, 0.264697, 0.191959)
+mesh = SubResource("BoxMesh_x2idj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_v6fj0")
+disabled = true
+
+[node name="BackMuzzle" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, -2.84217e-14, 0, 1, 0, 2.84217e-14, 0, 1, -2.25886e-08, 0, -0.241618)

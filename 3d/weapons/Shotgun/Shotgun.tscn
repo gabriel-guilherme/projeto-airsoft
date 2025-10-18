@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://bxbi43ricx0mr"]
+
+[ext_resource type="Script" uid="uid://bskgu7e3ir5de" path="res://3d/weapons/Shotgun/shotgun.gd" id="1_5tkwh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5bb75"]
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_7oeqp"]
+material = SubResource("StandardMaterial3D_5bb75")
+radius = 0.25
+height = 10.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dhhve"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5tkwh"]
+material = SubResource("StandardMaterial3D_dhhve")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5tkwh"]
+
+[node name="Shotgun" type="Area3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+script = ExtResource("1_5tkwh")
+spread_angle = 15.0
+energy = 0.5
+max_ammo = 8
+
+[node name="Inner" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -2.20869e-09, -1, 0, 0.0505289, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_7oeqp")
+
+[node name="Muzzle" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.96138e-08, 0.000411589, 0.248777)
+
+[node name="Reticula" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.0437839, 0, 0, 0, 0.0886698, 0, 0, 0, 0.0972809, 0, 0.264697, 0.191959)
+mesh = SubResource("BoxMesh_5tkwh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_5tkwh")
+disabled = true
+
+[node name="BackMuzzle" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, -2.84217e-14, 0, 1, 0, 2.84217e-14, 0, 1, -2.25886e-08, 0, -0.241618)

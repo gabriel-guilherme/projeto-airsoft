@@ -1,0 +1,44 @@
+[gd_scene load_steps=9 format=3 uid="uid://b42iwmnjwxuqc"]
+
+[ext_resource type="Script" uid="uid://nu05dwv4geee" path="res://3d/Player/player.gd" id="1_ijqim"]
+[ext_resource type="PackedScene" uid="uid://djdokg2ki5gtw" path="res://3d/weapons/Rifle/Rifle.tscn" id="2_sktmg"]
+[ext_resource type="PackedScene" uid="uid://ckd5y7ly3xhd4" path="res://3d/UI/UI.tscn" id="3_5ok7r"]
+[ext_resource type="PackedScene" uid="uid://5lad518v2r6y" path="res://3d/weapons/Pistol_1911/pistol_1911.tscn" id="3_lh6yh"]
+[ext_resource type="PackedScene" uid="uid://bxbi43ricx0mr" path="res://3d/weapons/Shotgun/Shotgun.tscn" id="4_60s3s"]
+[ext_resource type="PackedScene" uid="uid://7mksyex6wxgs" path="res://3d/weapons/Pistol_Glock/pistol_glock.tscn" id="5_lyofj"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pq6e2"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ijqim"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_ijqim")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_pq6e2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_ijqim")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+
+[node name="CameraPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0922289, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.520908, 0)
+
+[node name="Rifle" parent="CameraPivot/Camera3D" instance=ExtResource("2_sktmg")]
+transform = Transform3D(-1.00315, 0, -8.76986e-08, 0, 1.00315, 0, 8.76986e-08, 0, -1.00315, 0.474555, -0.517813, -0.650512)
+
+[node name="Shotgun" parent="CameraPivot/Camera3D" instance=ExtResource("4_60s3s")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.474555, -0.517813, -0.650512)
+
+[node name="Pistol_1911" parent="CameraPivot/Camera3D" instance=ExtResource("3_lh6yh")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.474555, -0.517813, -0.650512)
+
+[node name="Pistol_Glock" parent="CameraPivot/Camera3D" instance=ExtResource("5_lyofj")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.474555, -0.517813, -0.650512)
+max_ammo = 20
+
+[node name="UI" parent="." instance=ExtResource("3_5ok7r")]

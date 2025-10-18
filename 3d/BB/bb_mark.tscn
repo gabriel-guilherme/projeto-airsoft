@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bwny64udxshv7"]
+
+[ext_resource type="Script" uid="uid://18wxsi01psm" path="res://3d/BB/bb_mark.gd" id="1_kp4bd"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kp4bd"]
+albedo_color = Color(0, 0.643137, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_qqynv"]
+material = SubResource("StandardMaterial3D_kp4bd")
+radius = 0.2
+height = 0.4
+
+[node name="bb_mark" type="Node3D"]
+script = ExtResource("1_kp4bd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_qqynv")
+
+[node name="Timer" type="Timer" parent="."]
