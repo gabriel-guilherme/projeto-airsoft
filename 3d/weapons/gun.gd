@@ -44,16 +44,19 @@ func get_aim_direction() -> Vector3:
 	var to = from + cam.global_transform.basis.z * -80
 
 	var query = PhysicsRayQueryParameters3D.create(from, to)
+	query.collision_mask = 2
+	query.exclude = [self]
+	
 	var result = space.intersect_ray(query)
 
 	var target_pos: Vector3
 	if result:
 		target_pos = result.position
-		print("aim bot")
+		#print("aim bot", result)
 	else:
 		target_pos = to
 		target_pos.y += 1
-		print("sem aim bot")
+		#print("sem aim bot")
 	
 
 	var dir = (target_pos - spawn.global_position).normalized()
@@ -70,7 +73,7 @@ func get_spawn_position(dir: Vector3 = Vector3.FORWARD) -> Vector3:
 	var check_result = space.intersect_ray(check_query)
 	
 	if check_result:
-		print("Spawn bloqueado, usando back_spawn")
+		#print("Spawn bloqueado, usando back_spawn")
 		return back_spawn_pos
 	else:
 		return spawn_pos
@@ -84,6 +87,7 @@ func spawn_bb(dir: Vector3 = Vector3.FORWARD, consume_ammo: bool = true) -> void
 
 	var bb_instance = bb_scene.instantiate()
 	get_tree().current_scene.add_child(bb_instance)
+	print("UE")
 
 
 	bb_instance.global_position = get_spawn_position()
@@ -94,7 +98,8 @@ func spawn_bb(dir: Vector3 = Vector3.FORWARD, consume_ammo: bool = true) -> void
 		var mass = bb_instance.mass
 		var speed = sqrt(2 * energy / mass)
 		bb_instance.linear_velocity = dir * speed
-		print("vel:", speed)
+		#print(dir*speed)
+		#print("vel:", speed)
 	
 	update_ammo_ui()
 

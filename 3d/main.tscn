@@ -1,8 +1,29 @@
-[gd_scene load_steps=15 format=3 uid="uid://b6bwvsi0a41c4"]
+[gd_scene load_steps=21 format=3 uid="uid://b6bwvsi0a41c4"]
 
 [ext_resource type="Script" uid="uid://dmg2agyiksrxv" path="res://3d/main.gd" id="1_exqiu"]
 [ext_resource type="Shader" uid="uid://d5op460wsp0f" path="res://3d/shaders/main.gdshader" id="3_jli56"]
+[ext_resource type="PackedScene" uid="uid://d343jmm7s3u06" path="res://3d/Prop/Target/target.tscn" id="3_x4vld"]
 [ext_resource type="PackedScene" uid="uid://b42iwmnjwxuqc" path="res://3d/Player/player.tscn" id="4_x4vld"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mp6u3"]
+size = Vector3(1, 39.4822, 39.7751)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jli56"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_74ikw"]
+material = SubResource("StandardMaterial3D_jli56")
+size = Vector3(1, 40, 40)
+
+[sub_resource type="BoxMesh" id="BoxMesh_eu08u"]
+size = Vector3(1, 20, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lyd0k"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_od1r7"]
+material = SubResource("StandardMaterial3D_lyd0k")
+size = Vector3(0, 5, 5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_blpp0"]
 size = Vector3(300, 1, 300)
@@ -18,134 +39,554 @@ shader_parameter/scale = 100.0
 material = SubResource("ShaderMaterial_exqiu")
 size = Vector3(300, 1, 300)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_exqiu"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_exqiu"]
-albedo_color = Color(1, 0, 1, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_jli56"]
-material = SubResource("StandardMaterial3D_exqiu")
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_x4vld"]
 size = Vector3(300, 100, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_gob47"]
 size = Vector3(300, 100, 1)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_x4vld"]
-render_priority = 0
-shader = ExtResource("3_jli56")
-shader_parameter/color1 = Color(0, 0, 0, 1)
-shader_parameter/color2 = Color(0.5, 0.5, 0.5, 1)
-shader_parameter/scale = 100.0
-
-[sub_resource type="BoxMesh" id="BoxMesh_exqiu"]
-material = SubResource("ShaderMaterial_x4vld")
-size = Vector3(100, 50, 1)
+[sub_resource type="BoxMesh" id="BoxMesh_jli56"]
+size = Vector3(101, 40, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jli56"]
-size = Vector3(100, 50, 1)
+size = Vector3(101, 40, 1)
 
-[node name="Main" type="Node3D"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x4vld"]
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_334gs"]
+material = SubResource("StandardMaterial3D_x4vld")
+size = Vector3(0.5, 0.1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_74ikw"]
+size = Vector3(0.5, 0.1, 1)
+
+[node name="Main" type="Node3D" node_paths=PackedStringArray("spawner", "player", "start_button")]
 script = ExtResource("1_exqiu")
+target_scene = ExtResource("3_x4vld")
+spawner = NodePath("SpawnerTarget")
+player = NodePath("Player")
+start_button = NodePath("Mapa/StartButton")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="Target" type="StaticBody3D" parent="." groups=["targets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100.179, 20.395, 95.8131)
+collision_layer = 2
+collision_mask = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("BoxShape3D_blpp0")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Target"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.124582, 0.0606766)
+shape = SubResource("BoxShape3D_mp6u3")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
-mesh = SubResource("BoxMesh_x4vld")
-
-[node name="Player" parent="." instance=ExtResource("4_x4vld")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.78569, 21.3471)
-
-[node name="ALVO" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.14549, 45.991)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ALVO"]
-shape = SubResource("BoxShape3D_exqiu")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ALVO"]
-mesh = SubResource("BoxMesh_jli56")
-
-[node name="Wall1" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50.3536, 150.097)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall1"]
-shape = SubResource("BoxShape3D_x4vld")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall1"]
-mesh = SubResource("BoxMesh_gob47")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Target"]
+transform = Transform3D(0.00738948, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_74ikw")
 skeleton = NodePath("../CollisionShape3D")
 
-[node name="Wall2" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50.3536, -149.637)
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Target"]
+transform = Transform3D(-0.000267506, 0, 0, 0, 1, -8.74228e-08, 0, 8.74228e-08, 1, 0.159164, 0, 0)
+mesh = SubResource("BoxMesh_eu08u")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall2"]
-shape = SubResource("BoxShape3D_x4vld")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall2"]
-mesh = SubResource("BoxMesh_gob47")
-skeleton = NodePath("../CollisionShape3D")
-
-[node name="Wall3" type="StaticBody3D" parent="."]
-transform = Transform3D(-0.00331261, 0, -0.999994, 0, 1, 0, 0.999994, 0, -0.00331261, -149.727, 50.3536, -0.0830154)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall3"]
-shape = SubResource("BoxShape3D_x4vld")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall3"]
-mesh = SubResource("BoxMesh_gob47")
-skeleton = NodePath("../CollisionShape3D")
-
-[node name="Wall4" type="StaticBody3D" parent="."]
-transform = Transform3D(-0.00331261, 0, -0.999994, 0, 1, 0, 0.999994, 0, -0.00331261, 149.846, 50.3536, -0.0830154)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall4"]
-shape = SubResource("BoxShape3D_x4vld")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall4"]
-mesh = SubResource("BoxMesh_gob47")
-skeleton = NodePath("../CollisionShape3D")
-
-[node name="Wall5" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25.2661, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall5"]
-mesh = SubResource("BoxMesh_exqiu")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall5"]
-shape = SubResource("BoxShape3D_jli56")
-
-[node name="Wall6" type="StaticBody3D" parent="."]
-transform = Transform3D(-0.00164234, 0, -0.999999, 0, 1, 0, 0.999999, 0, -0.00164234, 49.585, 25.5575, -49.7972)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall6"]
-mesh = SubResource("BoxMesh_exqiu")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall6"]
-shape = SubResource("BoxShape3D_jli56")
-
-[node name="Wall7" type="StaticBody3D" parent="."]
-transform = Transform3D(-0.00164234, 0, -0.999999, 0, 1, 0, 0.999999, 0, -0.00164234, -38.0733, 25.5575, 82.6425)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall7"]
-mesh = SubResource("BoxMesh_exqiu")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall7"]
-shape = SubResource("BoxShape3D_jli56")
-
-[node name="Wall8" type="StaticBody3D" parent="."]
-transform = Transform3D(-0.999709, 0, 0.0241216, 0, 1, 0, -0.0241216, 0, -0.999709, 6.95368, 25.5575, 131.046)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Wall8"]
-mesh = SubResource("BoxMesh_exqiu")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall8"]
-shape = SubResource("BoxShape3D_jli56")
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Target"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.170929, 0, 0)
+mesh = SubResource("BoxMesh_od1r7")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 241.727, 147.61)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 329.222, 97.0102)
 light_energy = 700.0
 omni_range = 694.076
+
+[node name="Player" parent="." instance=ExtResource("4_x4vld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.78569, 56.7392)
+
+[node name="Mapa" type="Node" parent="."]
+
+[node name="Floor" type="StaticBody3D" parent="Mapa"]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mapa/Floor"]
+shape = SubResource("BoxShape3D_blpp0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mapa/Floor"]
+mesh = SubResource("BoxMesh_x4vld")
+
+[node name="Wall1" type="StaticBody3D" parent="Mapa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50.3536, 150.097)
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mapa/Wall1"]
+shape = SubResource("BoxShape3D_x4vld")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mapa/Wall1"]
+mesh = SubResource("BoxMesh_gob47")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="Wall2" type="StaticBody3D" parent="Mapa"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50.3536, -149.637)
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mapa/Wall2"]
+shape = SubResource("BoxShape3D_x4vld")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mapa/Wall2"]
+mesh = SubResource("BoxMesh_gob47")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="Wall3" type="StaticBody3D" parent="Mapa"]
+transform = Transform3D(-0.00331261, 0, -0.999994, 0, 1, 0, 0.999994, 0, -0.00331261, -149.727, 50.3536, -0.0830154)
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mapa/Wall3"]
+shape = SubResource("BoxShape3D_x4vld")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mapa/Wall3"]
+mesh = SubResource("BoxMesh_gob47")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="Wall4" type="StaticBody3D" parent="Mapa"]
+transform = Transform3D(-0.00331261, 0, -0.999994, 0, 1, 0, 0.999994, 0, -0.00331261, 149.846, 50.3536, -0.0830154)
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mapa/Wall4"]
+shape = SubResource("BoxShape3D_x4vld")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mapa/Wall4"]
+mesh = SubResource("BoxMesh_gob47")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="Mureta" type="StaticBody3D" parent="Mapa"]
+transform = Transform3D(2.98444, 0, 0, 0, 0.0237254, 0, 0, 0, 1, 0, 1.08861, 55.2681)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mapa/Mureta"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.132994, 0, 0)
+mesh = SubResource("BoxMesh_jli56")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mapa/Mureta"]
+shape = SubResource("BoxShape3D_jli56")
+
+[node name="StartButton" type="StaticBody3D" parent="Mapa"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1.62066, 55.2748)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mapa/StartButton"]
+mesh = SubResource("BoxMesh_334gs")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mapa/StartButton"]
+shape = SubResource("BoxShape3D_74ikw")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="LabelRound" type="Label" parent="CanvasLayer"]
+offset_left = 399.0
+offset_top = 41.0
+offset_right = 476.0
+offset_bottom = 64.0
+text = "Rodada: 1"
+
+[node name="LabelTargets" type="Label" parent="CanvasLayer"]
+offset_left = 684.0
+offset_top = 39.0
+offset_right = 743.0
+offset_bottom = 62.0
+text = "Alvos: 1"
+
+[node name="LabelTime" type="Label" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -75.0
+offset_top = 50.0
+offset_right = 75.0
+offset_bottom = 123.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 60
+text = "30"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelTimeTitle" type="Label" parent="CanvasLayer"]
+offset_left = 526.0
+offset_top = 5.0
+offset_right = 626.0
+offset_bottom = 47.0
+theme_override_font_sizes/font_size = 30
+text = "Tempo"
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="SpawnerTarget" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 5.82179, 16.2841)
+
+[node name="Line" type="Node3D" parent="SpawnerTarget"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.50641, -15.043)
+
+[node name="SpawnPoint1" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -10, 0)
+
+[node name="SpawnPoint2" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -10, 0)
+
+[node name="SpawnPoint3" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -10, 0)
+
+[node name="SpawnPoint4" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, -10, 0)
+
+[node name="SpawnPoint5" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -10, 0)
+
+[node name="SpawnPoint6" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+
+[node name="SpawnPoint7" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -10, 0)
+
+[node name="SpawnPoint8" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -10, 0)
+
+[node name="SpawnPoint9" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -10, 0)
+
+[node name="SpawnPoint10" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -10, 0)
+
+[node name="SpawnPoint11" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -5, 0)
+
+[node name="SpawnPoint12" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -5, 0)
+
+[node name="SpawnPoint13" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -5, 0)
+
+[node name="SpawnPoint14" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, -5, 0)
+
+[node name="SpawnPoint15" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -5, 0)
+
+[node name="SpawnPoint16" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+
+[node name="SpawnPoint17" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -5, 0)
+
+[node name="SpawnPoint18" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -5, 0)
+
+[node name="SpawnPoint19" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -5, 0)
+
+[node name="SpawnPoint20" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -5, 0)
+
+[node name="SpawnPoint21" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+
+[node name="SpawnPoint22" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 0)
+
+[node name="SpawnPoint23" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 0)
+
+[node name="SpawnPoint24" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0)
+
+[node name="SpawnPoint25" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
+
+[node name="SpawnPoint26" type="Marker3D" parent="SpawnerTarget/Line"]
+
+[node name="SpawnPoint27" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
+
+[node name="SpawnPoint28" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
+
+[node name="SpawnPoint29" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 0)
+
+[node name="SpawnPoint30" type="Marker3D" parent="SpawnerTarget/Line"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0)
+
+[node name="Line2" type="Node3D" parent="SpawnerTarget"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.50641, -10.043)
+
+[node name="SpawnPoint1" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -10, 0)
+
+[node name="SpawnPoint2" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -10, 0)
+
+[node name="SpawnPoint3" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -10, 0)
+
+[node name="SpawnPoint4" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, -10, 0)
+
+[node name="SpawnPoint5" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -10, 0)
+
+[node name="SpawnPoint6" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+
+[node name="SpawnPoint7" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -10, 0)
+
+[node name="SpawnPoint8" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -10, 0)
+
+[node name="SpawnPoint9" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -10, 0)
+
+[node name="SpawnPoint10" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -10, 0)
+
+[node name="SpawnPoint11" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -5, 0)
+
+[node name="SpawnPoint12" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -5, 0)
+
+[node name="SpawnPoint13" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -5, 0)
+
+[node name="SpawnPoint14" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, -5, 0)
+
+[node name="SpawnPoint15" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -5, 0)
+
+[node name="SpawnPoint16" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+
+[node name="SpawnPoint17" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -5, 0)
+
+[node name="SpawnPoint18" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -5, 0)
+
+[node name="SpawnPoint19" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -5, 0)
+
+[node name="SpawnPoint20" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -5, 0)
+
+[node name="SpawnPoint21" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+
+[node name="SpawnPoint22" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 0)
+
+[node name="SpawnPoint23" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 0)
+
+[node name="SpawnPoint24" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0)
+
+[node name="SpawnPoint25" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
+
+[node name="SpawnPoint26" type="Marker3D" parent="SpawnerTarget/Line2"]
+
+[node name="SpawnPoint27" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
+
+[node name="SpawnPoint28" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
+
+[node name="SpawnPoint29" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 0)
+
+[node name="SpawnPoint30" type="Marker3D" parent="SpawnerTarget/Line2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0)
+
+[node name="Line3" type="Node3D" parent="SpawnerTarget"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.50641, -5.04298)
+
+[node name="SpawnPoint1" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -10, 0)
+
+[node name="SpawnPoint2" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -10, 0)
+
+[node name="SpawnPoint3" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -10, 0)
+
+[node name="SpawnPoint4" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, -10, 0)
+
+[node name="SpawnPoint5" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -10, 0)
+
+[node name="SpawnPoint6" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+
+[node name="SpawnPoint7" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -10, 0)
+
+[node name="SpawnPoint8" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -10, 0)
+
+[node name="SpawnPoint9" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -10, 0)
+
+[node name="SpawnPoint10" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -10, 0)
+
+[node name="SpawnPoint11" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -5, 0)
+
+[node name="SpawnPoint12" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -5, 0)
+
+[node name="SpawnPoint13" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -5, 0)
+
+[node name="SpawnPoint14" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, -5, 0)
+
+[node name="SpawnPoint15" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -5, 0)
+
+[node name="SpawnPoint16" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+
+[node name="SpawnPoint17" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -5, 0)
+
+[node name="SpawnPoint18" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -5, 0)
+
+[node name="SpawnPoint19" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -5, 0)
+
+[node name="SpawnPoint20" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -5, 0)
+
+[node name="SpawnPoint21" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+
+[node name="SpawnPoint22" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 0)
+
+[node name="SpawnPoint23" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 0)
+
+[node name="SpawnPoint24" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0)
+
+[node name="SpawnPoint25" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
+
+[node name="SpawnPoint26" type="Marker3D" parent="SpawnerTarget/Line3"]
+
+[node name="SpawnPoint27" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
+
+[node name="SpawnPoint28" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
+
+[node name="SpawnPoint29" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 0)
+
+[node name="SpawnPoint30" type="Marker3D" parent="SpawnerTarget/Line3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0)
+
+[node name="Line4" type="Node3D" parent="SpawnerTarget"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.50641, -0.0429764)
+
+[node name="SpawnPoint1" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -10, 0)
+
+[node name="SpawnPoint2" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -10, 0)
+
+[node name="SpawnPoint3" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -10, 0)
+
+[node name="SpawnPoint4" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, -10, 0)
+
+[node name="SpawnPoint5" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -10, 0)
+
+[node name="SpawnPoint6" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+
+[node name="SpawnPoint7" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -10, 0)
+
+[node name="SpawnPoint8" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -10, 0)
+
+[node name="SpawnPoint9" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -10, 0)
+
+[node name="SpawnPoint10" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -10, 0)
+
+[node name="SpawnPoint11" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -5, 0)
+
+[node name="SpawnPoint12" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -5, 0)
+
+[node name="SpawnPoint13" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -5, 0)
+
+[node name="SpawnPoint14" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, -5, 0)
+
+[node name="SpawnPoint15" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -5, 0)
+
+[node name="SpawnPoint16" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+
+[node name="SpawnPoint17" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -5, 0)
+
+[node name="SpawnPoint18" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -5, 0)
+
+[node name="SpawnPoint19" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -5, 0)
+
+[node name="SpawnPoint20" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -5, 0)
+
+[node name="SpawnPoint21" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+
+[node name="SpawnPoint22" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 0)
+
+[node name="SpawnPoint23" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 0)
+
+[node name="SpawnPoint24" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 0, 0)
+
+[node name="SpawnPoint25" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
+
+[node name="SpawnPoint26" type="Marker3D" parent="SpawnerTarget/Line4"]
+
+[node name="SpawnPoint27" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
+
+[node name="SpawnPoint28" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
+
+[node name="SpawnPoint29" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 0)
+
+[node name="SpawnPoint30" type="Marker3D" parent="SpawnerTarget/Line4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0)
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

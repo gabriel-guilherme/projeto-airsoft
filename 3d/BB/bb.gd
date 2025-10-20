@@ -42,7 +42,14 @@ func _physics_process(_delta: float) -> void:
 
 	#  colisão
 	if get_contact_count() > 0:
-		_create_bullet_mark(prev_position)
+		var collider = get_colliding_bodies()[0]
+		_create_bullet_mark(prev_position, collider)
+
+		if collider and collider is RigidBody3D:
+			#print(collider)
+			if collider.has_method("hit"):
+				collider.hit()
+
 		queue_free()
 
 	prev_position = global_position
@@ -58,9 +65,9 @@ func _on_visible_on_screen_notifier_3d_screen_exited() -> void:
 	queue_free()
 
 
-func _create_bullet_mark(location) -> void:
+func _create_bullet_mark(location, collider) -> void:
 	
 	var mark = bullet_mark_scene.instantiate()
-	get_tree().current_scene.add_child(mark)
+	collider.add_child(mark)
 
 	mark.global_position = location
