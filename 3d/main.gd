@@ -3,19 +3,18 @@ extends Node3D
 @export var target_scene: PackedScene
 @export var spawner: Node3D
 @export var time_per_round := 4
-@export var player: Node3D              # agora exportamos o Player
-@export var start_button: StaticBody3D  # botão físico para iniciar
+@export var player: Node3D
+@export var start_button: StaticBody3D
 
-var camera: Camera3D                    # será buscada dentro do CameraPivot
+var camera: Camera3D
 var round2 := 1
 var targets_left := 0
 var time_left := 4
-var used_spawns: Array = []  # guarda pontos de spawn já usados na rodada
+var used_spawns: Array = []
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
-	# procura a câmera dentro do player → CameraPivot/Camera3D
 	if player and player.has_node("CameraPivot/Camera3D"):
 		camera = player.get_node("CameraPivot/Camera3D")
 	else:
@@ -28,13 +27,9 @@ func _input(event):
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
-	# Interagir com botão (tecla E)
 	if event.is_action_pressed("interact"):
 		check_button_interaction()
 
-# ==========================================
-# Verifica se o jogador está mirando no botão
-# ==========================================
 func check_button_interaction():
 	if camera == null or not is_instance_valid(camera):
 		push_error("Câmera não encontrada — o player foi atribuído corretamente?")
@@ -43,9 +38,8 @@ func check_button_interaction():
 		push_error("Botão de start não atribuído no script!")
 		return
 
-	# Raycast simples a partir da câmera do player
 	var from = camera.global_position
-	var to = from + camera.global_transform.basis.z * -5.0  # 5 metros à frente
+	var to = from + camera.global_transform.basis.z * -5.0
 	var space = get_world_3d().direct_space_state
 	var query = PhysicsRayQueryParameters3D.create(from, to)
 	var result = space.intersect_ray(query)
@@ -64,9 +58,6 @@ func check_button_interaction():
 	else:
 		print("Nada atingido ou não é o botão.")
 
-# ==========================================
-# Sistema de rounds
-# ==========================================
 func start_round(num):
 	used_spawns.clear()
 	clear_targets()

@@ -2,13 +2,12 @@ extends Gun
 
 @export var fire_rate := 6.0
 var _time_since_last_shot := 0.0
-var auto = true
-
+var mode = false
 
 func _process(delta: float) -> void:
 	_time_since_last_shot += delta
 
-	if auto:
+	if mode:
 		if Input.is_action_pressed("Fire"):
 			shoot()
 	else:
@@ -19,8 +18,9 @@ func _process(delta: float) -> void:
 		reload()
 	
 	if Input.is_action_just_pressed("weapon_mode"):
-		auto = not auto
-
+		mode = not mode
+		var check_button = ui.get_node("GunMode").get_node("VBoxContainer").get_node("Container").get_node("CheckButton")
+		check_button.button_pressed = !check_button.button_pressed
 
 func shoot():
 	if reloading:
@@ -31,7 +31,7 @@ func shoot():
 		reload()
 		return
 
-	if auto:
+	if mode:
 		var delay = 1.0 / fire_rate
 		if _time_since_last_shot < delay:
 			return

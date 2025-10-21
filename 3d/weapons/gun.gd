@@ -8,20 +8,23 @@ class_name Gun
 @export var ammo_per_shot := 1
 @export var max_ammo := 10
 @export var reload_time := 2.0
+@export var gun_modes := []
 
 var cam
 var ammo := 10
 var reloading := false
 var bb_scene: PackedScene = preload("res://3d/BB/bb.tscn")
+var ui
 
 func _ready() -> void:
 	cam = get_parent()
 	randomize()
 	ammo = max_ammo
 	update_ammo_ui()
+	ui = $"../../../UI"
 
 func update_ammo_ui() -> void:
-	var ui = $"../../../UI"
+	
 	if ui and ui.has_node("Ammo_Label"):
 		var ammo_label = ui.get_node("Ammo_Label")
 		ammo_label.text = "%d / %d" % [ammo, max_ammo]
@@ -87,7 +90,7 @@ func spawn_bb(dir: Vector3 = Vector3.FORWARD, consume_ammo: bool = true) -> void
 
 	var bb_instance = bb_scene.instantiate()
 	get_tree().current_scene.add_child(bb_instance)
-	print("UE")
+	#print("UE")
 
 
 	bb_instance.global_position = get_spawn_position()

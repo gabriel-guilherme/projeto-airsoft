@@ -98,12 +98,22 @@ func switch_weapon(slot: int) -> void:
 		current_weapon.set_process(true)
 		current_weapon.set_physics_process(true)
 
-		if control.has_node("HSlider"):
-			var slider = control.get_node("HSlider")
-			current_weapon.backspin = slider.value
-		if control.has_node("Ammo_Label"):
-			var ammo_label = control.get_node("Ammo_Label")
-			ammo_label.text = "%d / %d" % [current_weapon.ammo, current_weapon.max_ammo]
+
+		var slider = control.get_node("HSlider")
+		current_weapon.backspin = slider.value
+		
+		var ammo_label = control.get_node("Ammo_Label")
+		ammo_label.text = "%d / %d" % [current_weapon.ammo, current_weapon.max_ammo]
+		
+		var gun_mode = control.get_node("GunMode")
+		var vbox_container = gun_mode.get_node("VBoxContainer")
+		if current_weapon.gun_modes.size() > 0:
+			gun_mode.visible = true
+			vbox_container.get_node("Mode1_Label").text = current_weapon.gun_modes[0]
+			vbox_container.get_node("Mode2_Label").text = current_weapon.gun_modes[1]
+			vbox_container.get_node("Container").get_node("CheckButton").button_pressed = current_weapon.mode
+		else:
+			gun_mode.visible = false
 
 
 func _on_backspin_slider_changed(value: float) -> void:

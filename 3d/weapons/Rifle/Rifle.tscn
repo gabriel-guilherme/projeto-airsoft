@@ -24,6 +24,7 @@ script = ExtResource("1_dhhve")
 fire_rate = 8.0
 energy = 3.0
 max_ammo = 35
+gun_modes = ["Semi", "Auto"]
 
 [node name="Inner" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -2.20869e-09, -1, 0, 0.0505289, -4.37114e-08, 0, 0, 0)

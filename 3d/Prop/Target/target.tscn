@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://byrly2hff7nvp" path="res://3d/Prop/Target/target.gd" id="1_mp6u3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mp6u3"]
-size = Vector3(1, 39.4822, 39.7751)
+size = Vector3(1, 2.90817, 2.97954)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mp6u3"]
 albedo_color = Color(1, 0, 0, 1)
@@ -25,7 +25,7 @@ gravity_scale = 0.0
 script = ExtResource("1_mp6u3")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.77556e-17, 0.0161972, -0.00399017)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.71685e-15, 0.0502985, 0.00588274)
 shape = SubResource("BoxShape3D_mp6u3")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

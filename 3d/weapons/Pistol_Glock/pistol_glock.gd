@@ -3,21 +3,50 @@ extends Gun
 @export var pellets := 6
 @export var spread_angle := 10.0
 @export var sub_energy := 0.0001
+@export var burst_count := 3
+@export var burst_delay := 0.1
+var mode = false
+var is_bursting = false
 
 func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("Fire") and not reloading:
-		shoot()
+	if mode:
+		if Input.is_action_just_pressed("Fire") and not reloading and not is_bursting:
+			shoot_burst()
+	else:
+		if Input.is_action_just_pressed("Fire") and not reloading:
+			shoot()
+	
 	if Input.is_action_just_pressed("Reload"):
 		reload()
 	if Input.is_action_just_pressed("Scope") and not reloading:
 		spread_shoot()
+	if Input.is_action_just_pressed("weapon_mode"):
+		mode = not mode
+		var check_button = ui.get_node("GunMode").get_node("VBoxContainer").get_node("Container").get_node("CheckButton")
+		check_button.button_pressed = !check_button.button_pressed
+
+
+func shoot_burst() -> void:
+	if reloading:
+		return
+	if ammo < ammo_per_shot:
+		reload()
+		return
+	
+	is_bursting = true
+	for i in range(burst_count):
+		if reloading or ammo <= 0:
+			break
+		shoot()
+		await get_tree().create_timer(burst_delay).timeout
+	is_bursting = false
+
 
 func spread_shoot():
 	if reloading:
 		return
 	
 	if ammo < ammo_per_shot:
-		#print("Sem munição!")
 		reload()
 		return
 
@@ -27,6 +56,7 @@ func spread_shoot():
 
 	for i in range(pellets):
 		spawn_bb_with_spread()
+
 
 func spawn_bb_with_spread() -> void:
 	var dir = get_aim_direction()#spawn.global_transform.basis.z.normalized()
