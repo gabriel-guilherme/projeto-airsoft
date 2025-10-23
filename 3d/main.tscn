@@ -1,9 +1,13 @@
-[gd_scene load_steps=21 format=3 uid="uid://b6bwvsi0a41c4"]
+[gd_scene load_steps=25 format=3 uid="uid://b6bwvsi0a41c4"]
 
 [ext_resource type="Script" uid="uid://dmg2agyiksrxv" path="res://3d/main.gd" id="1_exqiu"]
 [ext_resource type="Shader" uid="uid://d5op460wsp0f" path="res://3d/shaders/main.gdshader" id="3_jli56"]
 [ext_resource type="PackedScene" uid="uid://d343jmm7s3u06" path="res://3d/Prop/Target/target.tscn" id="3_x4vld"]
 [ext_resource type="PackedScene" uid="uid://b42iwmnjwxuqc" path="res://3d/Player/player.tscn" id="4_x4vld"]
+[ext_resource type="PackedScene" uid="uid://brexk4c6c63bf" path="res://3d/weapons/Magazine/rifle_magazine.tscn" id="5_74ikw"]
+[ext_resource type="PackedScene" uid="uid://31gmlddq5mo5" path="res://3d/weapons/Magazine/shotgun_magazine.tscn" id="6_eu08u"]
+[ext_resource type="PackedScene" uid="uid://drbydfec8bsl6" path="res://3d/weapons/Magazine/1911_magazine.tscn" id="8_74ikw"]
+[ext_resource type="PackedScene" uid="uid://cuew5n810lpbp" path="res://3d/weapons/Magazine/glock_magazine.tscn" id="8_od1r7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mp6u3"]
 size = Vector3(1, 39.4822, 39.7751)
@@ -61,34 +65,14 @@ size = Vector3(0.5, 0.1, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_74ikw"]
 size = Vector3(0.5, 0.1, 1)
 
-[node name="Main" type="Node3D" node_paths=PackedStringArray("spawner", "player", "start_button")]
+[node name="Main" type="Node3D" node_paths=PackedStringArray("spawner", "player", "start_button", "interact_label", "round_canvas_layer")]
 script = ExtResource("1_exqiu")
 target_scene = ExtResource("3_x4vld")
 spawner = NodePath("SpawnerTarget")
 player = NodePath("Player")
 start_button = NodePath("Mapa/StartButton")
-
-[node name="Target" type="StaticBody3D" parent="." groups=["targets"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100.179, 20.395, 95.8131)
-collision_layer = 2
-collision_mask = 2
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Target"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.124582, 0.0606766)
-shape = SubResource("BoxShape3D_mp6u3")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Target"]
-transform = Transform3D(0.00738948, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-mesh = SubResource("BoxMesh_74ikw")
-skeleton = NodePath("../CollisionShape3D")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Target"]
-transform = Transform3D(-0.000267506, 0, 0, 0, 1, -8.74228e-08, 0, 8.74228e-08, 1, 0.159164, 0, 0)
-mesh = SubResource("BoxMesh_eu08u")
-
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="Target"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.170929, 0, 0)
-mesh = SubResource("BoxMesh_od1r7")
+interact_label = NodePath("InteractCanvasLayer/InteractLabel")
+round_canvas_layer = NodePath("RoundCanvasLayer")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 329.222, 97.0102)
@@ -99,6 +83,28 @@ omni_range = 694.076
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.78569, 56.7392)
 
 [node name="Mapa" type="Node" parent="."]
+
+[node name="Target" type="StaticBody3D" parent="Mapa" groups=["targets"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -98.7333, 20.395, 95.8131)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mapa/Target"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.124582, 0.0606766)
+shape = SubResource("BoxShape3D_mp6u3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mapa/Target"]
+transform = Transform3D(0.00738948, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_74ikw")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Mapa/Target"]
+transform = Transform3D(-0.000267506, 0, 0, 0, 1, -8.74228e-08, 0, 8.74228e-08, 1, 0.159164, 0, 0)
+mesh = SubResource("BoxMesh_eu08u")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Mapa/Target"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.170929, 0, 0)
+mesh = SubResource("BoxMesh_od1r7")
 
 [node name="Floor" type="StaticBody3D" parent="Mapa"]
 collision_layer = 3
@@ -135,7 +141,7 @@ mesh = SubResource("BoxMesh_gob47")
 skeleton = NodePath("../CollisionShape3D")
 
 [node name="Wall3" type="StaticBody3D" parent="Mapa"]
-transform = Transform3D(-0.00331261, 0, -0.999994, 0, 1, 0, 0.999994, 0, -0.00331261, -149.727, 50.3536, -0.0830154)
+transform = Transform3D(-0.00331261, 0, -0.999994, 0, 1, 0, 0.999994, 0, -0.00331261, -99.0436, 50.3536, -0.0830154)
 collision_layer = 3
 collision_mask = 3
 
@@ -177,24 +183,44 @@ mesh = SubResource("BoxMesh_334gs")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Mapa/StartButton"]
 shape = SubResource("BoxShape3D_74ikw")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="InteractCanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="InteractLabel" type="Label" parent="InteractCanvasLayer"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -39.5
+offset_right = 60.0
+offset_bottom = -16.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+text = "BARRA DE ESPAÇO para interagir"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RoundCanvasLayer" type="CanvasLayer" parent="."]
 visible = false
 
-[node name="LabelRound" type="Label" parent="CanvasLayer"]
+[node name="LabelRound" type="Label" parent="RoundCanvasLayer"]
 offset_left = 399.0
 offset_top = 41.0
 offset_right = 476.0
 offset_bottom = 64.0
 text = "Rodada: 1"
 
-[node name="LabelTargets" type="Label" parent="CanvasLayer"]
+[node name="LabelTargets" type="Label" parent="RoundCanvasLayer"]
 offset_left = 684.0
 offset_top = 39.0
 offset_right = 743.0
 offset_bottom = 62.0
 text = "Alvos: 1"
 
-[node name="LabelTime" type="Label" parent="CanvasLayer"]
+[node name="LabelTime" type="Label" parent="RoundCanvasLayer"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -208,7 +234,7 @@ text = "30"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LabelTimeTitle" type="Label" parent="CanvasLayer"]
+[node name="LabelTimeTitle" type="Label" parent="RoundCanvasLayer"]
 offset_left = 526.0
 offset_top = 5.0
 offset_right = 626.0
@@ -588,5 +614,239 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 0)
 
 [node name="SpawnPoint30" type="Marker3D" parent="SpawnerTarget/Line4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0)
+
+[node name="Magazines" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 66.9593)
+
+[node name="02" type="Node3D" parent="Magazines"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.944386, 12.5026)
+
+[node name="Rifle_35" type="Label3D" parent="Magazines/02"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 3.13742, -0.560234)
+text = "Rifle
+Munição: 35
+Massa: 0.2g"
+font_size = 60
+
+[node name="Shotgun_8" type="Label3D" parent="Magazines/02"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.92971, 3.13742, -0.560234)
+text = "Shotgun
+Munição: 8
+Massa: 0.2g"
+font_size = 60
+
+[node name="1911_12" type="Label3D" parent="Magazines/02"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -3.85314, 3.13742, -0.560234)
+text = "1911
+Munição: 12
+Massa: 0.2g"
+font_size = 60
+
+[node name="Glock_20" type="Label3D" parent="Magazines/02"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -5.77003, 3.13742, -0.560234)
+text = "Glock
+Munição: 20
+Massa: 0.2g"
+font_size = 60
+
+[node name="Rifle_Magazine" parent="Magazines/02" instance=ExtResource("5_74ikw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.57241, -0.631721)
+
+[node name="Shotgun_Magazine" parent="Magazines/02" instance=ExtResource("6_eu08u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.85735, 1.57241, -0.631721)
+
+[node name="1911_Magazine" parent="Magazines/02" instance=ExtResource("8_74ikw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.76893, 1.56855, -0.635315)
+
+[node name="Glock_Magazine" parent="Magazines/02" instance=ExtResource("8_od1r7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.70546, 1.57241, -0.631721)
+
+[node name="25" type="Node3D" parent="Magazines"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.97973, -0.944386, 12.4852)
+
+[node name="Rifle_35" type="Label3D" parent="Magazines/25"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 3.13742, -0.560234)
+text = "Rifle
+Munição: 35
+Massa: 0.25g"
+font_size = 60
+
+[node name="Shotgun_8" type="Label3D" parent="Magazines/25"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.92971, 3.13742, -0.560234)
+text = "Shotgun
+Munição: 8
+Massa: 0.25g"
+font_size = 60
+
+[node name="1911_12" type="Label3D" parent="Magazines/25"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -3.85314, 3.13742, -0.560234)
+text = "1911
+Munição: 12
+Massa: 0.25g"
+font_size = 60
+
+[node name="Glock_20" type="Label3D" parent="Magazines/25"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -5.77003, 3.13742, -0.560234)
+text = "Glock
+Munição: 20
+Massa: 0.25g"
+font_size = 60
+
+[node name="Rifle_Magazine" parent="Magazines/25" instance=ExtResource("5_74ikw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.57241, -0.631721)
+bb_mass = 0.00025
+
+[node name="Shotgun_Magazine" parent="Magazines/25" instance=ExtResource("6_eu08u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.85735, 1.57241, -0.631721)
+bb_mass = 0.00025
+
+[node name="1911_Magazine" parent="Magazines/25" instance=ExtResource("8_74ikw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.76893, 1.56855, -0.635315)
+bb_mass = 0.00025
+
+[node name="Glock_Magazine" parent="Magazines/25" instance=ExtResource("8_od1r7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.70546, 1.57241, -0.631721)
+bb_mass = 0.00025
+
+[node name="32" type="Node3D" parent="Magazines"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.1132, -0.944386, 12.5197)
+
+[node name="Rifle_35" type="Label3D" parent="Magazines/32"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 3.13742, -0.560234)
+text = "Rifle
+Munição: 35
+Massa: 0.32g"
+font_size = 60
+
+[node name="Shotgun_8" type="Label3D" parent="Magazines/32"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.92971, 3.13742, -0.560234)
+text = "Shotgun
+Munição: 8
+Massa: 0.32g"
+font_size = 60
+
+[node name="1911_12" type="Label3D" parent="Magazines/32"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -3.85314, 3.13742, -0.560234)
+text = "1911
+Munição: 12
+Massa: 0.32g"
+font_size = 60
+
+[node name="Glock_20" type="Label3D" parent="Magazines/32"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -5.77003, 3.13742, -0.560234)
+text = "Glock
+Munição: 20
+Massa: 0.32g"
+font_size = 60
+
+[node name="Rifle_Magazine" parent="Magazines/32" instance=ExtResource("5_74ikw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.57241, -0.631721)
+bb_mass = 0.00032
+
+[node name="Shotgun_Magazine" parent="Magazines/32" instance=ExtResource("6_eu08u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.85735, 1.57241, -0.631721)
+bb_mass = 0.00032
+
+[node name="1911_Magazine" parent="Magazines/32" instance=ExtResource("8_74ikw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.76893, 1.56855, -0.635315)
+bb_mass = 0.00032
+
+[node name="Glock_Magazine" parent="Magazines/32" instance=ExtResource("8_od1r7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.70546, 1.57241, -0.631721)
+bb_mass = 0.00032
+
+[node name="50" type="Node3D" parent="Magazines"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.4051, -0.944386, 12.5018)
+
+[node name="Rifle_35" type="Label3D" parent="Magazines/50"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 3.13742, -0.560234)
+text = "Rifle
+Munição: 35
+Massa: 0.5g"
+font_size = 60
+
+[node name="Shotgun_8" type="Label3D" parent="Magazines/50"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.92971, 3.13742, -0.560234)
+text = "Shotgun
+Munição: 8
+Massa: 0.5g"
+font_size = 60
+
+[node name="1911_12" type="Label3D" parent="Magazines/50"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -3.85314, 3.13742, -0.560234)
+text = "1911
+Munição: 12
+Massa: 0.5g"
+font_size = 60
+
+[node name="Glock_20" type="Label3D" parent="Magazines/50"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -5.77003, 3.13742, -0.560234)
+text = "Glock
+Munição: 20
+Massa: 0.5g"
+font_size = 60
+
+[node name="Rifle_Magazine" parent="Magazines/50" instance=ExtResource("5_74ikw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.57241, -0.631721)
+bb_mass = 0.0005
+
+[node name="Shotgun_Magazine" parent="Magazines/50" instance=ExtResource("6_eu08u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.85735, 1.57241, -0.631721)
+bb_mass = 0.0005
+
+[node name="1911_Magazine" parent="Magazines/50" instance=ExtResource("8_74ikw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.76893, 1.56855, -0.635315)
+bb_mass = 0.0005
+
+[node name="Glock_Magazine" parent="Magazines/50" instance=ExtResource("8_od1r7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.70546, 1.57241, -0.631721)
+bb_mass = 0.0005
+
+[node name="inf_ammo" type="Node3D" parent="Magazines"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -12.8624, -0.944386, 9.54805)
+
+[node name="Rifle_35" type="Label3D" parent="Magazines/inf_ammo"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 3.13742, -0.560234)
+text = "Rifle
+Munição: inf"
+font_size = 60
+
+[node name="Shotgun_8" type="Label3D" parent="Magazines/inf_ammo"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.92971, 3.13742, -0.560234)
+text = "Shotgun
+Munição: inf"
+font_size = 60
+
+[node name="1911_12" type="Label3D" parent="Magazines/inf_ammo"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -3.85314, 3.13742, -0.560234)
+text = "1911
+Munição: inf"
+font_size = 60
+
+[node name="Glock_20" type="Label3D" parent="Magazines/inf_ammo"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -5.77003, 3.13742, -0.560234)
+text = "Glock
+Munição: inf"
+font_size = 60
+
+[node name="Rifle_Magazine" parent="Magazines/inf_ammo" instance=ExtResource("5_74ikw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.57241, -0.631721)
+bb_mass = 0.0005
+inf_ammo = true
+
+[node name="Shotgun_Magazine" parent="Magazines/inf_ammo" instance=ExtResource("6_eu08u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.85735, 1.57241, -0.631721)
+bb_mass = 0.0005
+inf_ammo = true
+
+[node name="1911_Magazine" parent="Magazines/inf_ammo" instance=ExtResource("8_74ikw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.76893, 1.56855, -0.635315)
+bb_mass = 0.0005
+inf_ammo = true
+
+[node name="Glock_Magazine" parent="Magazines/inf_ammo" instance=ExtResource("8_od1r7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.70546, 1.57241, -0.631721)
+bb_mass = 0.0005
+inf_ammo = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

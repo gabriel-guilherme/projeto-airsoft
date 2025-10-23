@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3 uid="uid://31gmlddq5mo5"]
+
+[ext_resource type="Script" uid="uid://col47u051t1ou" path="res://3d/weapons/Magazine/magazine.gd" id="1_5a5w3"]
+[ext_resource type="PackedScene" uid="uid://bxbi43ricx0mr" path="res://3d/weapons/Shotgun/Shotgun.tscn" id="2_5a5w3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6p5ry"]
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ri22r"]
+material = SubResource("StandardMaterial3D_6p5ry")
+size = Vector3(1, 0.1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a26nk"]
+size = Vector3(1.1, 0.2, 1.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mqhfb"]
+size = Vector3(1, 0.1, 1)
+
+[node name="Shotgun_Magazine" type="RigidBody3D"]
+contact_monitor = true
+max_contacts_reported = 5
+script = ExtResource("1_5a5w3")
+bb_mass = 0.0002
+ammo = 8
+gun = ExtResource("2_5a5w3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_ri22r")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_a26nk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_mqhfb")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

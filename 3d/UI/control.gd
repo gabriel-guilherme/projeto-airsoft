@@ -1,7 +1,7 @@
 extends Control
 
-@onready var slider: HSlider = $HSlider
-@onready var label: Label = $Backspin_Label
+@onready var slider: HSlider = $Backspin_Info/HSlider
+@onready var label: Label = $Backspin_Info/Backspin_Label
 @onready var camera_pivot: Node3D = $"../CameraPivot"
 var rifle: Area3D
 var shotgun: Area3D
@@ -19,10 +19,11 @@ func _process(_delta):
 func _on_h_slider_value_changed(value: float) -> void:
 	label.text = str(value * 10)
 	
-	for child in camera_pivot.get_children():
-		if child is Area3D:
-			if child.has_method("set") or "backspin" in child:
-				child.backspin = value
+	for camera in camera_pivot.get_children():
+		for child in camera.get_children():
+			if child is Area3D:
+				if child.has_method("set") or "backspin" in child:
+					child.backspin = value
 
 
 func _unhandled_input(event: InputEvent) -> void:

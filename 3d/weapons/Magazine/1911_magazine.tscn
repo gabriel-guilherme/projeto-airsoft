@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3 uid="uid://drbydfec8bsl6"]
+
+[ext_resource type="Script" uid="uid://col47u051t1ou" path="res://3d/weapons/Magazine/magazine.gd" id="1_2ae2e"]
+[ext_resource type="PackedScene" uid="uid://5lad518v2r6y" path="res://3d/weapons/Pistol_1911/pistol_1911.tscn" id="2_2ae2e"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p6nkt"]
+albedo_color = Color(0, 1, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vhwck"]
+material = SubResource("StandardMaterial3D_p6nkt")
+size = Vector3(1, 0.1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a26nk"]
+size = Vector3(1.1, 0.2, 1.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mqhfb"]
+size = Vector3(1, 0.1, 1)
+
+[node name="1911_Magazine" type="RigidBody3D"]
+contact_monitor = true
+max_contacts_reported = 5
+script = ExtResource("1_2ae2e")
+bb_mass = 0.0002
+ammo = 12
+gun = ExtResource("2_2ae2e")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_vhwck")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_a26nk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_mqhfb")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

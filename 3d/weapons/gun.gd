@@ -9,25 +9,56 @@ class_name Gun
 @export var max_ammo := 10
 @export var reload_time := 2.0
 @export var gun_modes := []
+@export var bb_mass := 0.0002
+@export var inf_ammo : bool
 
+var mode = false
 var cam
 var ammo := 10
 var reloading := false
 var bb_scene: PackedScene = preload("res://3d/BB/bb.tscn")
 var ui
+var reload_id := 0
+var reload_timer
 
 func _ready() -> void:
 	cam = get_parent()
 	randomize()
 	ammo = max_ammo
-	update_ammo_ui()
+	update_weapon_ui()
 	ui = $"../../../UI"
 
-func update_ammo_ui() -> void:
-	
-	if ui and ui.has_node("Ammo_Label"):
-		var ammo_label = ui.get_node("Ammo_Label")
+func update_weapon_ui() -> void:
+	if ui:
+		var backspin_info = ui.get_node("Backspin_Info")
+		var slider = backspin_info.get_node("HSlider")
+		backspin = slider.value
+		
+		var gun_info = ui.get_node("Gun_Info")
+
+		var ammo_label = gun_info.get_node("Ammo_Label")
+		#print(ammo_label)
 		ammo_label.text = "%d / %d" % [ammo, max_ammo]
+		
+		var bbmass_label = gun_info.get_node("BBMass_Label")
+		bbmass_label.text = "%sg" % [String.num(bb_mass * 1000, 2)]
+		#print(bb_mass)
+		
+		var energy_label = gun_info.get_node("Energy_Label")
+		energy_label.text = "%s j" % [String.num(energy, 2)]
+		
+		var reloading_label = ui.get_node("Reloading_Label")
+		reloading_label.visible = false
+
+		var gun_mode = ui.get_node("GunMode")
+		var vbox_container = gun_mode.get_node("VBoxContainer")
+		if gun_modes.size() > 0:
+			gun_mode.visible = true
+			vbox_container.get_node("Mode1_Label").text = gun_modes[0]
+			vbox_container.get_node("Mode2_Label").text = gun_modes[1]
+			vbox_container.get_node("Container").get_node("CheckButton").button_pressed = mode
+		else:
+			gun_mode.visible = false
 
 func shoot() -> void:
 	if reloading:
@@ -40,6 +71,12 @@ func shoot() -> void:
 	var dir = get_aim_direction()
 	
 	spawn_bb(dir)
+
+func change_energy(amount: float):
+	energy = energy + amount
+	if energy < 0:
+		energy = 0
+	update_weapon_ui()
 
 func get_aim_direction() -> Vector3:
 	var space = get_world_3d().direct_space_state
@@ -85,7 +122,7 @@ func spawn_bb(dir: Vector3 = Vector3.FORWARD, consume_ammo: bool = true) -> void
 	if ammo <= 0 and consume_ammo:
 		return
 
-	if consume_ammo:
+	if consume_ammo and not inf_ammo:
 		ammo -= ammo_per_shot
 
 	var bb_instance = bb_scene.instantiate()
@@ -96,22 +133,38 @@ func spawn_bb(dir: Vector3 = Vector3.FORWARD, consume_ammo: bool = true) -> void
 	bb_instance.global_position = get_spawn_position()
 	bb_instance.global_rotation = spawn.global_rotation
 	bb_instance.backspin = backspin
+	bb_instance.mass = bb_mass
 
 	if bb_instance is RigidBody3D:
 		var mass = bb_instance.mass
 		var speed = sqrt(2 * energy / mass)
 		bb_instance.linear_velocity = dir * speed
 		#print(dir*speed)
-		#print("vel:", speed)
+		print("vel:", speed)
 	
-	update_ammo_ui()
+	update_weapon_ui()
 
 func reload():
-	if reloading:
+	if reloading or ammo == max_ammo:
 		return
+	
 	reloading = true
+	reload_id += 1
+	var current_id = reload_id
 
-	await get_tree().create_timer(reload_time).timeout
-	ammo = max_ammo
+	var reloading_label = ui.get_node("Reloading_Label")
+	reloading_label.visible = true
+
+	reload_timer = await get_tree().create_timer(reload_time).timeout
+
+	if visible and reload_id == current_id:
+		ammo = max_ammo
+		update_weapon_ui()
+	
 	reloading = false
-	update_ammo_ui()
+
+func cancel_reload():
+	if reload_timer:
+		
+		reload_timer.stop()
+		reload_timer = null

@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3 uid="uid://cuew5n810lpbp"]
+
+[ext_resource type="Script" uid="uid://col47u051t1ou" path="res://3d/weapons/Magazine/magazine.gd" id="1_ytt73"]
+[ext_resource type="PackedScene" uid="uid://7mksyex6wxgs" path="res://3d/weapons/Pistol_Glock/pistol_glock.tscn" id="2_ytt73"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_40i0x"]
+albedo_color = Color(1, 0.564706, 0.219608, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rlbas"]
+material = SubResource("StandardMaterial3D_40i0x")
+size = Vector3(1, 0.1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a26nk"]
+size = Vector3(1.1, 0.2, 1.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mqhfb"]
+size = Vector3(1, 0.1, 1)
+
+[node name="Glock_Magazine" type="RigidBody3D"]
+contact_monitor = true
+max_contacts_reported = 5
+script = ExtResource("1_ytt73")
+bb_mass = 0.0002
+ammo = 20
+gun = ExtResource("2_ytt73")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_rlbas")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_a26nk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_mqhfb")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

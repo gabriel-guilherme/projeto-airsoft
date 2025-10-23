@@ -7,6 +7,13 @@ extends Gun
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("Fire") and not reloading:
 		shoot()
+	
+	if Input.is_action_pressed("energy_up"):
+		change_energy(0.005)
+	
+	if Input.is_action_pressed("energy_down"):
+		change_energy(-0.005)
+	
 	if Input.is_action_just_pressed("Reload"):
 		reload()
 
@@ -18,8 +25,9 @@ func shoot():
 		#print("Sem munição!")
 		reload()
 		return
-
-	ammo -= ammo_per_shot
+		
+	if not inf_ammo:
+		ammo -= ammo_per_shot
 
 	for i in range(pellets):
 		spawn_bb_with_spread()
@@ -28,7 +36,6 @@ func shoot():
 func spawn_bb_with_spread() -> void:
 	var dir = get_aim_direction()#spawn.global_transform.basis.z.normalized()
 	
-	# variação aleatória dentro do cone de spread
 	var random_yaw = deg_to_rad(randf_range(-spread_angle, spread_angle))
 	var random_pitch = deg_to_rad(randf_range(-spread_angle , spread_angle))
 	var rot = Basis()

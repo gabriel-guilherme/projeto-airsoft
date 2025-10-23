@@ -20,7 +20,7 @@ func set_spawn_pos(pos: Vector3) -> void:
 func _ready() -> void:
 	gravity_scale = 0.0
 	linear_damp = 0
-	mass = 0.0002
+	#mass = 0.0002
 	contact_monitor = true
 	max_contacts_reported = 4
 	prev_position = global_position

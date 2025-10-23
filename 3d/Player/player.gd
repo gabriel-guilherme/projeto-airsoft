@@ -74,48 +74,46 @@ func _physics_process(delta: float) -> void:
 
 
 func switch_weapon(slot: int) -> void:
+
+	match slot:
+		1:
+			if current_weapon == rifle:
+				return
+			current_weapon = rifle
+		2:
+			if current_weapon == shotgun:
+				return
+			current_weapon = shotgun
+		3:
+			if current_weapon == pistol_1911:
+				return
+			current_weapon = pistol_1911
+		4:
+			if current_weapon == pistol_glock:
+				return
+			current_weapon = pistol_glock
+		_:
+			current_weapon = null
+			return
+
 	for weapon in [rifle, shotgun, pistol_1911, pistol_glock]:
 		if weapon:
 			weapon.visible = false
 			weapon.set_process(false)
 			weapon.set_physics_process(false)
 
-	match slot:
-		1:
-			current_weapon = rifle
-		2:
-			current_weapon = shotgun
-		3:
-			current_weapon = pistol_1911
-		4:
-			current_weapon = pistol_glock
-		_:
-			current_weapon = null
-			return
-
 	if current_weapon:
 		current_weapon.visible = true
+		current_weapon.reload_id += 1
+		current_weapon.cancel_reload()
 		current_weapon.set_process(true)
 		current_weapon.set_physics_process(true)
+		current_weapon.update_weapon_ui()
 
 
-		var slider = control.get_node("HSlider")
-		current_weapon.backspin = slider.value
-		
-		var ammo_label = control.get_node("Ammo_Label")
-		ammo_label.text = "%d / %d" % [current_weapon.ammo, current_weapon.max_ammo]
-		
-		var gun_mode = control.get_node("GunMode")
-		var vbox_container = gun_mode.get_node("VBoxContainer")
-		if current_weapon.gun_modes.size() > 0:
-			gun_mode.visible = true
-			vbox_container.get_node("Mode1_Label").text = current_weapon.gun_modes[0]
-			vbox_container.get_node("Mode2_Label").text = current_weapon.gun_modes[1]
-			vbox_container.get_node("Container").get_node("CheckButton").button_pressed = current_weapon.mode
-		else:
-			gun_mode.visible = false
+
 
 
 func _on_backspin_slider_changed(value: float) -> void:
 	if current_weapon:
-		current_weapon.backspin = value
+		current_weapon.update_weapon_ui()

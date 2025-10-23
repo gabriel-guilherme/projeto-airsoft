@@ -5,7 +5,6 @@ extends Gun
 @export var sub_energy := 0.0001
 @export var burst_count := 3
 @export var burst_delay := 0.1
-var mode = false
 var is_bursting = false
 
 func _process(_delta: float) -> void:
@@ -16,6 +15,12 @@ func _process(_delta: float) -> void:
 		if Input.is_action_just_pressed("Fire") and not reloading:
 			shoot()
 	
+	if Input.is_action_pressed("energy_up"):
+		change_energy(0.005)
+	
+	if Input.is_action_pressed("energy_down"):
+		change_energy(-0.005)
+		
 	if Input.is_action_just_pressed("Reload"):
 		reload()
 	if Input.is_action_just_pressed("Scope") and not reloading:
@@ -49,8 +54,10 @@ func spread_shoot():
 	if ammo < ammo_per_shot:
 		reload()
 		return
-
-	ammo -= pellets
+	
+	if not inf_ammo:
+		ammo -= pellets
+	
 	if ammo < 0:
 		ammo = 0
 
