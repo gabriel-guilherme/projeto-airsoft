@@ -1,7 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://ckd5y7ly3xhd4"]
+[gd_scene load_steps=5 format=3 uid="uid://ckd5y7ly3xhd4"]
 
 [ext_resource type="Script" uid="uid://beiusddw65syb" path="res://3d/UI/control.gd" id="1_s47nh"]
 [ext_resource type="Texture2D" uid="uid://b33xiv2vci876" path="res://3d/textures/alvo (1).png" id="2_njelr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s47nh"]
+content_margin_left = 80.0
+bg_color = Color(0, 0, 0, 0.168627)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_njelr"]
+bg_color = Color(0.258824, 0.258824, 0.258824, 0.72549)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_top = 10.0
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -50,32 +66,113 @@ text = "6BB/s"
 
 [node name="Backspin_Info" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -281.5
-offset_top = -95.0
-offset_right = 281.5
-grow_horizontal = 2
-grow_vertical = 0
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -19.0
+offset_top = -182.5
+offset_right = 136.0
+offset_bottom = 182.5
+grow_vertical = 2
+alignment = 1
 
-[node name="BackspinText_Label" type="Label" parent="Backspin_Info"]
+[node name="HSlider" type="VSlider" parent="Backspin_Info"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+size_flags_horizontal = 1
+size_flags_vertical = 3
+theme_override_styles/slider = SubResource("StyleBoxFlat_s47nh")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_njelr")
+max_value = 0.3
+step = 0.001
+
+[node name="Backspin_Label" type="Label" parent="Backspin_Info/HSlider"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -11.5
+offset_right = 16.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 30
+text = "0.65"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackspinText_Label" type="Label" parent="Backspin_Info/HSlider"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -35.0
+offset_top = 29.0
+offset_right = 35.0
+offset_bottom = 52.0
+grow_horizontal = 2
+size_flags_horizontal = 4
 text = "Backspin"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HSlider" type="HSlider" parent="Backspin_Info"]
-layout_mode = 2
-max_value = 0.07
-step = 0.001
+[node name="Firerate_Info" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 71.0
+offset_top = -182.5
+offset_right = 226.0
+offset_bottom = 182.5
+grow_vertical = 2
+alignment = 1
 
-[node name="Backspin_Label" type="Label" parent="Backspin_Info"]
+[node name="HSlider" type="VSlider" parent="Firerate_Info"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+size_flags_horizontal = 1
+size_flags_vertical = 3
+theme_override_styles/slider = SubResource("StyleBoxFlat_s47nh")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_njelr")
+min_value = 3.0
+max_value = 16.0
+step = 0.5
+value = 6.0
+
+[node name="Firerate_Label" type="Label" parent="Firerate_Info/HSlider"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -11.5
+offset_right = 16.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 20
+text = "4BB/s"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FirerateText_Label" type="Label" parent="Firerate_Info/HSlider"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -35.0
+offset_top = 29.0
+offset_right = 35.0
+offset_bottom = 52.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+text = "Firerate"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -182,3 +279,4 @@ text = "Auto"
 horizontal_alignment = 1
 
 [connection signal="value_changed" from="Backspin_Info/HSlider" to="." method="_on_h_slider_value_changed"]
+[connection signal="value_changed" from="Firerate_Info/HSlider" to="." method="_on_firerate_value_changed"]

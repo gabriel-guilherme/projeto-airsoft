@@ -21,6 +21,9 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_pressed("energy_down"):
 		change_energy(-0.005)
+	
+	if Input.is_action_just_pressed("switch_bar"):
+		ui.switch_bar()
 
 	if Input.is_action_just_pressed("weapon_mode"):
 		mode = not mode

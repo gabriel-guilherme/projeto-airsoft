@@ -29,16 +29,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0922289, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.520908, 0)
 
 [node name="Rifle" parent="CameraPivot/Camera3D" instance=ExtResource("2_sktmg")]
-transform = Transform3D(-1.00315, 0, -8.76986e-08, 0, 1.00315, 0, 8.76986e-08, 0, -1.00315, 0.474555, -0.517813, -0.650512)
+transform = Transform3D(-1.00315, 0, -1.51471e-07, 0, 1.00315, 0, 1.51471e-07, 0, -1.00315, 0.474555, -0.517813, -0.650512)
 
 [node name="Shotgun" parent="CameraPivot/Camera3D" instance=ExtResource("4_60s3s")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.474555, -0.517813, -0.650512)
+transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0.474555, -0.517813, -0.650512)
 
 [node name="Pistol_1911" parent="CameraPivot/Camera3D" instance=ExtResource("3_lh6yh")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.474555, -0.517813, -0.650512)
+transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0.474555, -0.517813, -0.650512)
 
 [node name="Pistol_Glock" parent="CameraPivot/Camera3D" instance=ExtResource("5_lyofj")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.474555, -0.517813, -0.650512)
+transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0.474555, -0.517813, -0.650512)
 max_ammo = 20
 
 [node name="UI" parent="." instance=ExtResource("3_5ok7r")]

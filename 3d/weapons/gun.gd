@@ -57,8 +57,16 @@ func update_weapon_ui() -> void:
 			vbox_container.get_node("Mode1_Label").text = gun_modes[0]
 			vbox_container.get_node("Mode2_Label").text = gun_modes[1]
 			vbox_container.get_node("Container").get_node("CheckButton").button_pressed = mode
+			
+			for mode_searched in gun_modes:
+				if mode_searched == "Auto":
+					ui.get_node("Firerate_Info").visible = true
+				else:
+					ui.get_node("Firerate_Info").visible = false
 		else:
+			ui.get_node("Firerate_Info").visible = false
 			gun_mode.visible = false
+		
 
 func shoot() -> void:
 	if reloading:
@@ -81,7 +89,11 @@ func change_energy(amount: float):
 func get_aim_direction() -> Vector3:
 	var space = get_world_3d().direct_space_state
 	var from = cam.global_position
-	var to = from + cam.global_transform.basis.z * -80
+	var to = from + cam.global_transform.basis.z * -70
+
+	# offset para a esquerda
+	var left_offset = cam.global_transform.basis.x * -0.25
+	to += left_offset
 
 	var query = PhysicsRayQueryParameters3D.create(from, to)
 	query.collision_mask = 2
@@ -92,15 +104,13 @@ func get_aim_direction() -> Vector3:
 	var target_pos: Vector3
 	if result:
 		target_pos = result.position
-		#print("aim bot", result)
 	else:
 		target_pos = to
 		target_pos.y += 1
-		#print("sem aim bot")
 	
-
 	var dir = (target_pos - spawn.global_position).normalized()
 	return dir
+
 
 
 func get_spawn_position(dir: Vector3 = Vector3.FORWARD) -> Vector3:
@@ -140,7 +150,7 @@ func spawn_bb(dir: Vector3 = Vector3.FORWARD, consume_ammo: bool = true) -> void
 		var speed = sqrt(2 * energy / mass)
 		bb_instance.linear_velocity = dir * speed
 		#print(dir*speed)
-		print("vel:", speed)
+		#print("vel:", speed)
 	
 	update_weapon_ui()
 

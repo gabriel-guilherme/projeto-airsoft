@@ -1,5 +1,7 @@
 extends Node3D
 
+@onready var pause_menu = $PauseMenu
+
 @export var target_scene: PackedScene
 @export var spawner: Node3D
 @export var time_per_round := 4
@@ -37,10 +39,10 @@ func _process(_delta):
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
-		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		if get_tree().paused:
+			resume_game()
 		else:
-			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+			pause_game()
 
 	if event.is_action_pressed("interact"):
 		check_button_interaction()
@@ -141,3 +143,13 @@ func game_over():
 	clear_targets()
 	$Timer.stop()
 	round_canvas_layer.visible = false
+
+func pause_game():
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	pause_menu.visible = true
+	get_tree().paused = true
+
+func resume_game():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	pause_menu.visible = false
+	get_tree().paused = false

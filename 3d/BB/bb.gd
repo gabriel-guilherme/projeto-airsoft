@@ -26,19 +26,31 @@ func _ready() -> void:
 	prev_position = global_position
 
 func _physics_process(_delta: float) -> void:
-	var horizontal_velocity = Vector3(linear_velocity.x, 0, linear_velocity.z)
-	var speed = horizontal_velocity.length()
+	#var horizontal_velocity = Vector3(linear_velocity.x, 0, linear_velocity.z)
+	#var vertical_velocity = Vector3(0, linear_velocity.y, 0)
+	#var horizontal_speed = horizontal_velocity.length()
+	#var vertical_speed = vertical_velocity.length()
+	
+	var speed = linear_velocity.length()
 
 	if speed > 0.001:
+		#print(speed)
 		var drag_force_mag = 0.5 * p * speed * speed * Cd * transversal
 		var drag_direction = linear_velocity.normalized()
 		var drag_force = -drag_direction * drag_force_mag
 		apply_central_force(drag_force)
-		fall()
-
+		print("CAIUNDOOO", drag_direction, -drag_direction)
+		
+	
 		if launched:
-			var backspin_force = global_transform.basis.y * sqrt(speed) * (backspin / 100)
-			apply_central_force(backspin_force)
+			var v_backspin_force = global_transform.basis.y * sqrt(speed) * (backspin / 100)
+			apply_central_force(v_backspin_force)
+			backspin *= 0.98
+			#print(backspin_force)
+		else:
+			fall()
+	else:
+		print("NAAO")
 
 	#  colisão
 	if get_contact_count() > 0:
@@ -56,13 +68,13 @@ func _physics_process(_delta: float) -> void:
 
 
 func fall() -> void:
-	if not launched:
-		gravity_scale = 1.0
-		launched = true
+	gravity_scale = 1.0
+	launched = true
 
 
 func _on_visible_on_screen_notifier_3d_screen_exited() -> void:
-	queue_free()
+	pass
+	#queue_free()
 
 
 func _create_bullet_mark(location, collider) -> void:

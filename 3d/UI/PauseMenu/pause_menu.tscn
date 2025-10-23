@@ -1,0 +1,56 @@
+[gd_scene load_steps=4 format=3 uid="uid://csfsrib8i78xa"]
+
+[ext_resource type="Script" uid="uid://cxsrsgtmya5bk" path="res://3d/UI/PauseMenu/pause_menu.gd" id="1_b36gp"]
+[ext_resource type="Shader" uid="uid://dmfi8cjoobb14" path="res://3d/shaders/pause_menu.gdshader" id="2_es0od"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3chrr"]
+shader = ExtResource("2_es0od")
+shader_parameter/blur_size = 2.0
+shader_parameter/tint_color = Vector4(0.3, 0.3, 0.3, 0.7)
+
+[node name="PauseMenu" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_b36gp")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_3chrr")
+offset_right = 1153.0
+offset_bottom = 648.0
+color = Color(0.247059, 0.247059, 0.247059, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -135.0
+offset_top = -104.0
+offset_right = 135.0
+offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "JOGO PAUSADO"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Resume" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+text = "Resume
+"
+
+[node name="Quit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 2
+text = "Quit
+"
+
+[connection signal="pressed" from="VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]

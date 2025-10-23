@@ -32,7 +32,7 @@ func _input(event):
 	if event is InputEventMouseMotion:
 		yaw -= event.relative.x * MOUSE_SENSITIVITY
 		pitch -= event.relative.y * MOUSE_SENSITIVITY
-		pitch = clamp(pitch, deg_to_rad(-70), deg_to_rad(70))
+		pitch = clamp(pitch, deg_to_rad(-90), deg_to_rad(90))
 		rotation.y = yaw
 		camera_pivot.rotation.x = pitch
 
@@ -103,6 +103,8 @@ func switch_weapon(slot: int) -> void:
 			weapon.set_physics_process(false)
 
 	if current_weapon:
+		if control.firerate_bar:
+			control.switch_bar()
 		current_weapon.visible = true
 		current_weapon.reload_id += 1
 		current_weapon.cancel_reload()
@@ -114,6 +116,6 @@ func switch_weapon(slot: int) -> void:
 
 
 
-func _on_backspin_slider_changed(value: float) -> void:
+func _on_backspin_slider_changed() -> void:
 	if current_weapon:
 		current_weapon.update_weapon_ui()

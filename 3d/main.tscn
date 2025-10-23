@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://b6bwvsi0a41c4"]
+[gd_scene load_steps=26 format=3 uid="uid://b6bwvsi0a41c4"]
 
 [ext_resource type="Script" uid="uid://dmg2agyiksrxv" path="res://3d/main.gd" id="1_exqiu"]
 [ext_resource type="Shader" uid="uid://d5op460wsp0f" path="res://3d/shaders/main.gdshader" id="3_jli56"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://31gmlddq5mo5" path="res://3d/weapons/Magazine/shotgun_magazine.tscn" id="6_eu08u"]
 [ext_resource type="PackedScene" uid="uid://drbydfec8bsl6" path="res://3d/weapons/Magazine/1911_magazine.tscn" id="8_74ikw"]
 [ext_resource type="PackedScene" uid="uid://cuew5n810lpbp" path="res://3d/weapons/Magazine/glock_magazine.tscn" id="8_od1r7"]
+[ext_resource type="PackedScene" uid="uid://csfsrib8i78xa" path="res://3d/UI/PauseMenu/pause_menu.tscn" id="9_eu08u"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mp6u3"]
 size = Vector3(1, 39.4822, 39.7751)
@@ -84,25 +85,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.78569, 56.7392)
 
 [node name="Mapa" type="Node" parent="."]
 
-[node name="Target" type="StaticBody3D" parent="Mapa" groups=["targets"]]
+[node name="Big_Target" type="StaticBody3D" parent="Mapa"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -98.7333, 20.395, 95.8131)
 collision_layer = 2
 collision_mask = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Mapa/Target"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Mapa/Big_Target"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.124582, 0.0606766)
 shape = SubResource("BoxShape3D_mp6u3")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Mapa/Target"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mapa/Big_Target"]
 transform = Transform3D(0.00738948, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_74ikw")
 skeleton = NodePath("../CollisionShape3D")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Mapa/Target"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Mapa/Big_Target"]
 transform = Transform3D(-0.000267506, 0, 0, 0, 1, -8.74228e-08, 0, 8.74228e-08, 1, 0.159164, 0, 0)
 mesh = SubResource("BoxMesh_eu08u")
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="Mapa/Target"]
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Mapa/Big_Target"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.170929, 0, 0)
 mesh = SubResource("BoxMesh_od1r7")
 
@@ -848,5 +849,7 @@ inf_ammo = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.70546, 1.57241, -0.631721)
 bb_mass = 0.0005
 inf_ammo = true
+
+[node name="PauseMenu" parent="." instance=ExtResource("9_eu08u")]
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
