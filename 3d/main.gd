@@ -22,10 +22,7 @@ var looking_at_button := false
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
-	if player and player.has_node("CameraPivot/Camera3D"):
-		camera = player.get_node("CameraPivot/Camera3D")
-	else:
-		push_error("Câmera não encontrada! Verifique se o caminho é Player/CameraPivot/Camera3D.")
+	camera = player.get_node("CameraPivot/Camera3D")
 
 func _process(_delta):
 	var result = get_look_ray_result()
