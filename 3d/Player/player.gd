@@ -32,7 +32,7 @@ func _input(event):
 	if event is InputEventMouseMotion:
 		yaw -= event.relative.x * MOUSE_SENSITIVITY
 		pitch -= event.relative.y * MOUSE_SENSITIVITY
-		pitch = clamp(pitch, deg_to_rad(-90), deg_to_rad(90))
+		pitch = clamp(pitch, deg_to_rad(-70), deg_to_rad(70))
 		rotation.y = yaw
 		camera_pivot.rotation.x = pitch
 

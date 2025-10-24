@@ -178,6 +178,11 @@ shape = SubResource("BoxShape3D_jli56")
 [node name="StartButton" type="StaticBody3D" parent="Mapa"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1.62066, 55.2748)
 
+[node name="Label" type="Label3D" parent="Mapa/StartButton"]
+transform = Transform3D(-1.30454e-07, 0, -1, 0, 3.04332, 0, 2.98444, 0, -4.37114e-08, 0.566933, 1.20476, 2.47815e-08)
+text = "Start Training"
+font_size = 60
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Mapa/StartButton"]
 mesh = SubResource("BoxMesh_334gs")
 

@@ -1,6 +1,7 @@
 extends Node3D
 
 @onready var pause_menu = $PauseMenu
+@onready var start_button_label = $Mapa/StartButton/Label
 
 @export var target_scene: PackedScene
 @export var spawner: Node3D
@@ -71,6 +72,7 @@ func check_button_interaction():
 		print("Nada atingido ou não é o botão.")
 
 func start_round(num):
+	start_button_label.visible = false
 	used_spawns.clear()
 	clear_targets()
 
@@ -143,6 +145,7 @@ func game_over():
 	clear_targets()
 	$Timer.stop()
 	round_canvas_layer.visible = false
+	start_button_label.visible = true
 
 func pause_game():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
